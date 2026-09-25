@@ -1,31 +1,31 @@
-function cardHTML(p) {
-  const thumb = p.thumb
-    ? `<div class="card-thumb"><img src="${p.thumb}" alt="${p.title} screenshot" loading="lazy"></div>`
-    : `<div class="card-thumb placeholder"><span class="thumb-label">${p.title}</span></div>`;
+function rowHTML(p) {
+  const media = p.thumb
+    ? `<div class="panel panel-media"><img src="${p.thumb}" alt="${p.title} screenshot" loading="lazy"></div>`
+    : `<div class="panel panel-media placeholder"><span>${p.title}</span></div>`;
 
-  const tags = (p.tags || [])
-    .map(t => `<span class="tag">${t}</span>`)
-    .join("");
+  const tags = (p.tags || []).join(" · ");
 
   const links = [];
   if (p.kind === "live" && p.liveUrl) {
-    links.push(`<a class="primary" href="${p.liveUrl}" target="_blank" rel="noopener">Live demo</a>`);
+    links.push(`<a href="${p.liveUrl}" target="_blank" rel="noopener">live demo ↗</a>`);
   }
   if (p.kind === "download" && p.downloadUrl) {
-    links.push(`<a class="primary" href="${p.downloadUrl}" target="_blank" rel="noopener">Download</a>`);
+    links.push(`<a href="${p.downloadUrl}" target="_blank" rel="noopener">download ↗</a>`);
   }
   if (p.sourceUrl) {
-    links.push(`<a href="${p.sourceUrl}" target="_blank" rel="noopener">Source</a>`);
+    links.push(`<a href="${p.sourceUrl}" target="_blank" rel="noopener">source ↗</a>`);
   }
 
   return `
-    <article class="card" data-kind="${p.kind}">
-      ${thumb}
-      <div class="card-body">
-        <h2 class="card-title">${p.title}</h2>
-        <p class="card-desc">${p.description}</p>
-        <div class="card-tags">${tags}</div>
-        <div class="card-links">${links.join("")}</div>
+    <article class="split project" data-kind="${p.kind}">
+      ${media}
+      <div class="panel panel-text">
+        <div class="prose">
+          <h2 class="project-title">${p.title}</h2>
+          <p>${p.description}</p>
+        </div>
+        ${tags ? `<p class="project-tags">${tags}</p>` : ""}
+        <div class="project-links">${links.join("")}</div>
       </div>
     </article>
   `;
@@ -38,7 +38,7 @@ function render(filter) {
     : PROJECTS.filter(p => p.kind === filter);
 
   grid.innerHTML = items.length
-    ? items.map(cardHTML).join("")
+    ? items.map(rowHTML).join("")
     : `<p class="empty-state">No projects in this category yet.</p>`;
 }
 
@@ -48,8 +48,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const buttons = document.querySelectorAll(".filter-btn");
   buttons.forEach(btn => {
     btn.addEventListener("click", () => {
-      buttons.forEach(b => b.classList.remove("is-active"));
+      buttons.forEach(b => {
+        b.classList.remove("is-active");
+        b.setAttribute("aria-pressed", "false");
+      });
       btn.classList.add("is-active");
+      btn.setAttribute("aria-pressed", "true");
       render(btn.dataset.filter);
     });
   });

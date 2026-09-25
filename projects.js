@@ -6,7 +6,7 @@
     description — one or two sentences, plain language
     tags        — array of short tech/stack labels, e.g. ["Electron", "React"]
     thumb       — path to a screenshot/GIF in assets/, e.g. "assets/woof-thumb.png"
-                  (leave "" to fall back to a placeholder pattern)
+                  (shown as a square, cropped to fill; leave "" for a black title panel)
     kind        — "live" (has a working web build) or "download" (native app only)
     liveUrl     — URL to the deployed web build (only used if kind is "live")
     downloadUrl — URL to a GitHub Release asset (only used if kind is "download")
