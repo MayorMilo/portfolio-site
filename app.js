@@ -78,13 +78,14 @@ document.addEventListener("DOMContentLoaded", () => {
     strip.scrollBy({ left: step * Number(btn.dataset.dir), behavior: "smooth" });
   });
 
-  // Only offer filters for kinds that exist; hide the bar if there's just one.
+  // Only offer filters for kinds that exist, and only show the bar when there
+  // is both a live demo and a download to choose between.
   const kinds = new Set(PROJECTS.map(p => p.kind));
   document.querySelectorAll(".filter-btn:not([data-filter=all])").forEach(b => {
     b.hidden = !kinds.has(b.dataset.filter);
   });
   const filters = document.querySelector(".filters");
-  if (filters) filters.hidden = kinds.size < 2;
+  if (filters) filters.hidden = !(kinds.has("live") && kinds.has("download"));
 
   const buttons = document.querySelectorAll(".filter-btn");
   buttons.forEach(btn => {
