@@ -1,7 +1,22 @@
 function rowHTML(p) {
-  const media = p.thumb
-    ? `<div class="panel panel-media"><img src="${p.thumb}" alt="${p.title} screenshot" loading="lazy"></div>`
-    : `<div class="panel panel-media placeholder"><span>${p.title}</span></div>`;
+  const images = p.images || (p.thumb ? [p.thumb] : []);
+  let media;
+  if (images.length > 1) {
+    media = `
+      <div class="panel panel-media gallery">
+        <div class="strip" tabindex="0" aria-label="${p.title} screenshots">
+          ${images.map((src, i) => `<img src="${src}" alt="${p.title} screenshot ${i + 1} of ${images.length}">`).join("")}
+        </div>
+        <div class="strip-nav">
+          <button class="strip-btn" data-dir="-1" aria-label="Previous screenshot">←</button>
+          <button class="strip-btn" data-dir="1" aria-label="Next screenshot">→</button>
+        </div>
+      </div>`;
+  } else if (images.length === 1) {
+    media = `<div class="panel panel-media"><img src="${images[0]}" alt="${p.title} screenshot" loading="lazy"></div>`;
+  } else {
+    media = `<div class="panel panel-media placeholder"><span>${p.title}</span></div>`;
+  }
 
   const tags = (p.tags || []).join(" · ");
 
@@ -10,7 +25,7 @@ function rowHTML(p) {
     links.push(`<a href="${p.liveUrl}" target="_blank" rel="noopener">live demo ↗</a>`);
   }
   if (p.kind === "download" && p.downloadUrl) {
-    links.push(`<a href="${p.downloadUrl}" target="_blank" rel="noopener">download ↗</a>`);
+    links.push(`<a href="${p.downloadUrl}" target="_blank" rel="noopener">download on GitHub ↗</a>`);
   }
   if (p.sourceUrl) {
     links.push(`<a href="${p.sourceUrl}" target="_blank" rel="noopener">source ↗</a>`);
@@ -44,6 +59,22 @@ function render(filter) {
 
 document.addEventListener("DOMContentLoaded", () => {
   render("all");
+
+  // Screenshot strips: arrow buttons step one image at a time.
+  document.getElementById("grid").addEventListener("click", e => {
+    const btn = e.target.closest(".strip-btn");
+    if (!btn) return;
+    const strip = btn.closest(".gallery").querySelector(".strip");
+    const step = strip.querySelector("img").getBoundingClientRect().width;
+    strip.scrollBy({ left: step * Number(btn.dataset.dir), behavior: "smooth" });
+  });
+
+  // Only offer filters for kinds that exist; hide the bar if there's just one.
+  const kinds = new Set(PROJECTS.map(p => p.kind));
+  document.querySelectorAll(".filter-btn:not([data-filter=all])").forEach(b => {
+    b.hidden = !kinds.has(b.dataset.filter);
+  });
+  document.querySelector(".filters").hidden = kinds.size < 2;
 
   const buttons = document.querySelectorAll(".filter-btn");
   buttons.forEach(btn => {
