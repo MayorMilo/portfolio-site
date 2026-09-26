@@ -10,7 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Inter:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body class="page-design">
 
 <header class="site-header">
   <a class="wordmark" href="./">Andrew Peng</a>
@@ -32,10 +32,14 @@
     <div class="panel panel-text">
       <div class="prose">
         <p>Digital &amp; graphic design.</p>
-        <p>This collection is still being put together.</p>
-        <p>In the meantime, paintings and mixed media live under <a href="https://www.andrewpengart.com/selected-works">visual art</a>.</p>
+        <p>Posters, print, apparel and advertising. Every piece is shown whole: scroll down through the tall ones, sideways through sets.</p>
+        <p>Tap any image to open it on its own and zoom in. Paintings and mixed media live under <a href="https://www.andrewpengart.com/selected-works">visual art</a>.</p>
       </div>
     </div>
+  </section>
+
+  <section id="grid" class="projects" aria-live="polite">
+    <!-- Rows are rendered here by app.js from design-projects.js -->
   </section>
 </main>
 
@@ -45,5 +49,7 @@
 </footer>
 
 <script src="site.js"></script>
+<script src="design-projects.js"></script>
+<script src="app.js"></script>
 </body>
 </html>

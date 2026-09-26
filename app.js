@@ -1,19 +1,25 @@
+// Each image links to its full file so it can be opened and zoomed in a new tab.
+function imageHTML(p, src, i, count) {
+  const label = (p.imageLabels || [])[i] || (count > 1 ? `image ${i + 1} of ${count}` : "image");
+  return `<a class="media-link" href="${src}" target="_blank" rel="noopener"><img src="${src}" alt="${p.title}, ${label}"></a>`;
+}
+
 function rowHTML(p) {
   const images = p.images || (p.thumb ? [p.thumb] : []);
   let media;
   if (images.length > 1) {
     media = `
       <div class="panel panel-media gallery">
-        <div class="strip" tabindex="0" aria-label="${p.title} screenshots">
-          ${images.map((src, i) => `<img src="${src}" alt="${p.title} screenshot ${i + 1} of ${images.length}">`).join("")}
+        <div class="strip" tabindex="0" aria-label="${p.title} images">
+          ${images.map((src, i) => imageHTML(p, src, i, images.length)).join("")}
         </div>
         <div class="strip-nav">
-          <button class="strip-btn" data-dir="-1" aria-label="Previous screenshot">←</button>
-          <button class="strip-btn" data-dir="1" aria-label="Next screenshot">→</button>
+          <button class="strip-btn" data-dir="-1" aria-label="Previous image">←</button>
+          <button class="strip-btn" data-dir="1" aria-label="Next image">→</button>
         </div>
       </div>`;
   } else if (images.length === 1) {
-    media = `<div class="panel panel-media"><img src="${images[0]}" alt="${p.title} screenshot" loading="lazy"></div>`;
+    media = `<div class="panel panel-media">${imageHTML(p, images[0], 0, 1)}</div>`;
   } else {
     media = `<div class="panel panel-media placeholder"><span>${p.title}</span></div>`;
   }
@@ -35,12 +41,14 @@ function rowHTML(p) {
     <article class="split project" data-kind="${p.kind}">
       ${media}
       <div class="panel panel-text">
-        <div class="prose">
-          <h2 class="project-title">${p.title}</h2>
-          <p>${p.description}</p>
+        <div class="panel-inner">
+          <div class="prose">
+            <h2 class="project-title">${p.title}</h2>
+            <p>${p.description}</p>
+          </div>
+          ${tags ? `<p class="project-tags">${tags}</p>` : ""}
+          ${links.length ? `<div class="project-links">${links.join("")}</div>` : ""}
         </div>
-        ${tags ? `<p class="project-tags">${tags}</p>` : ""}
-        <div class="project-links">${links.join("")}</div>
       </div>
     </article>
   `;
@@ -65,7 +73,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const btn = e.target.closest(".strip-btn");
     if (!btn) return;
     const strip = btn.closest(".gallery").querySelector(".strip");
-    const step = strip.querySelector("img").getBoundingClientRect().width;
+    const [a, b] = strip.children;
+    const step = b ? b.offsetLeft - a.offsetLeft : a.offsetWidth;
     strip.scrollBy({ left: step * Number(btn.dataset.dir), behavior: "smooth" });
   });
 
@@ -74,7 +83,8 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll(".filter-btn:not([data-filter=all])").forEach(b => {
     b.hidden = !kinds.has(b.dataset.filter);
   });
-  document.querySelector(".filters").hidden = kinds.size < 2;
+  const filters = document.querySelector(".filters");
+  if (filters) filters.hidden = kinds.size < 2;
 
   const buttons = document.querySelectorAll(".filter-btn");
   buttons.forEach(btn => {

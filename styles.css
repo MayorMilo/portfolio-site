@@ -115,6 +115,12 @@ a { color: inherit; }
   97% { transform: scaleY(0.15); }
 }
 
+.media-link {
+  display: block;
+  height: 100%;
+  cursor: zoom-in;
+}
+
 .panel-media img {
   width: 100%;
   height: 100%;
@@ -146,6 +152,13 @@ a { color: inherit; }
   gap: 24px;
   padding: 64px 48px;
   text-align: center;
+}
+
+.panel-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
 }
 
 .prose { max-width: 36ch; }
@@ -285,6 +298,7 @@ a:focus-visible, button:focus-visible {
   .project:nth-child(even) .panel-media { order: 0; }
   .panel-art, .panel-media { max-height: none; }
   .panel-text { padding: 48px 24px 64px; }
+  .page-design .panel-inner { position: static; }
 
   .site-footer { padding: 24px 16px 32px; }
 }
@@ -306,12 +320,16 @@ a:focus-visible, button:focus-visible {
 
 .strip::-webkit-scrollbar { display: none; }
 
-.panel-media .strip img {
+.strip .media-link {
   flex: none;
+  height: 100%;
+  scroll-snap-align: start;
+}
+
+.panel-media .strip img {
   width: auto;
   height: 100%;
   object-fit: contain;
-  scroll-snap-align: start;
 }
 
 .strip-nav {
@@ -337,3 +355,46 @@ a:focus-visible, button:focus-visible {
 .strip-btn:hover { opacity: 0.75; }
 
 .filters[hidden], .filter-btn[hidden] { display: none; }
+
+/*
+  Design page: pieces are shown whole, never cropped. Each sits at its natural
+  height on a gallery-grey mount, so tall posters extend down the page and you
+  scroll the page to see all of them; the description stays pinned alongside.
+  Multi-image pieces (front/back) scroll sideways in a strip.
+*/
+
+.page-design .panel-media {
+  aspect-ratio: auto;
+  max-height: none;
+  background: #F0F0EE;
+  padding: clamp(24px, 4vw, 64px);
+}
+
+.page-design .panel-media .media-link { height: auto; }
+
+.page-design .panel-media img,
+.page-design .panel-media .strip img {
+  width: 100%;
+  height: auto;
+  object-fit: initial;
+}
+
+.page-design .strip {
+  height: auto;
+  align-items: flex-start;
+  gap: clamp(24px, 4vw, 64px);
+}
+
+.page-design .strip .media-link { width: 100%; }
+
+.page-design .strip-btn {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.page-design .panel-text { justify-content: flex-start; }
+
+.page-design .panel-inner {
+  position: sticky;
+  top: calc(var(--header-h) + 64px);
+}
