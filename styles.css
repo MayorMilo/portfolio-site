@@ -1,9 +1,9 @@
 /*
   Design language borrowed from BigSur (awwwards.com/sites/big-sur):
-  pure white page, black ink, one grey for "current"/secondary; a chunky
-  hand-drawn wordmark; lowercase-quiet navigation centered in the header with a
+  pure white page, black ink, one grey for "current"/secondary; a serif
+  wordmark (Instrument Serif); quiet navigation centered in the header with a
   live clock on the right; full-bleed 50/50 split panels with no gutters,
-  borders, radii or shadows; bold black pixel/graphic art against photography;
+  borders, radii or shadows; animated pixel-art heads against photography;
   centered, airy body copy.
 */
 
@@ -46,10 +46,10 @@ a { color: inherit; }
 }
 
 .wordmark {
-  font-family: 'Bagel Fat One', 'Arial Black', sans-serif;
-  font-size: clamp(24px, 2.4vw, 32px);
+  font-family: 'Instrument Serif', Georgia, 'Times New Roman', serif;
+  font-size: clamp(28px, 2.8vw, 36px);
+  font-weight: 400;
   line-height: 1;
-  text-transform: uppercase;
   letter-spacing: -0.01em;
   white-space: nowrap;
   text-decoration: none;
@@ -92,27 +92,14 @@ a { color: inherit; }
   overflow: hidden;
 }
 
-.panel-art {
-  display: grid;
-  place-items: center;
-}
+/* Hero art: an animated pixel-art GIF filling its half edge to edge. */
 
-.pixel-art {
-  width: min(78%, 78svh);
-  height: auto;
-  fill: var(--ink);
-}
-
-.pixel-art .eye {
-  fill: var(--paper);
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: blink 5s infinite;
-}
-
-@keyframes blink {
-  0%, 94%, 100% { transform: scaleY(1); }
-  97% { transform: scaleY(0.15); }
+.hero-gif {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  image-rendering: pixelated;
 }
 
 .media-link {
@@ -137,10 +124,9 @@ a { color: inherit; }
 }
 
 .panel-media.placeholder span {
-  font-family: 'Bagel Fat One', 'Arial Black', sans-serif;
-  font-size: clamp(36px, 6vw, 88px);
-  line-height: 0.95;
-  text-transform: uppercase;
+  font-family: 'Instrument Serif', Georgia, 'Times New Roman', serif;
+  font-size: clamp(40px, 6vw, 96px);
+  line-height: 1;
   text-align: center;
 }
 
@@ -268,7 +254,6 @@ a { color: inherit; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .pixel-art .eye { animation: none; }
 }
 
 a:focus-visible, button:focus-visible {
