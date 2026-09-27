@@ -18,7 +18,7 @@
 const PROJECTS = [
   {
     title: "Habitat",
-    description: "Symbiotic personal growth. A social app where you and your friends each grow a tree in shared forests (your school, your family, a study group) with a Top Growers board ranking everyone. Drawn throughout in illustrated paper-style trees.",
+    description: "Symbiotic personal growth and peer accountability. A social app where you and your friends each grow a tree in shared forests. Track screen time, fitness, and other habits.",
     tags: ["iOS", "Social", "UI design"],
     images: ["assets/habitat-1.png", "assets/habitat-2.webp", "assets/habitat-3.webp"],
     imageLabels: ["welcome screen", "friends and forests", "forest view with Top Growers"],
@@ -26,7 +26,7 @@ const PROJECTS = [
   },
   {
     title: "Paperclips",
-    description: "A physical habit tracker for your desktop. Two jars and a handful of paperclips: drag a clip across each time you do the thing, and watch the jar go empty. No accounts, no ads, completely local.",
+    description: "Bring tabletop habit tracking to your for your desktop. Just drag and drop.",
     tags: ["Electron", "React", "Matter.js"],
     images: ["assets/paperclips-1.png", "assets/paperclips-2.png", "assets/paperclips-3.png"],
     kind: "download",
@@ -34,7 +34,7 @@ const PROJECTS = [
   },
   {
     title: "Blinders — YouTube",
-    description: "YouTube, minus the rabbit hole. A Chrome extension that predicts which videos are unproductive and gets them out of your way: blurred thumbnails, a hard block on the watch page, no Shorts, and a session clock that keeps you honest. Runs entirely on-device.",
+    description: "YouTube, minus the rabbit hole. A Chrome extension that predicts which videos are unproductive and gets them out of your way. Infinitely customizable. Runs entirely on-device.",
     tags: ["Chrome extension", "JavaScript", "Manifest V3"],
     images: ["assets/blinders-1.jpg", "assets/blinders-2.jpg", "assets/blinders-3.jpg"],
     kind: "download",
