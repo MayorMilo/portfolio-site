@@ -26,7 +26,7 @@ const PROJECTS = [
   },
   {
     title: "Paperclips",
-    description: "Bring tabletop habit tracking to your for your desktop. Just drag and drop.",
+    description: "Bring tabletop habit tracking to your desktop. Just drag and drop.",
     tags: ["Electron", "React", "Matter.js"],
     images: ["assets/paperclips-1.png", "assets/paperclips-2.png", "assets/paperclips-3.png"],
     kind: "download",
