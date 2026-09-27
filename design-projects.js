@@ -26,7 +26,7 @@ const PROJECTS = [
     tags: ["Advertising", "Chinese typography", "Halftone"],
     images: ["assets/design-67-drafts-ad.jpg"],
     kind: "design"
-  }
+  },
   {
     title: "The Trump Gold Card — Satirical Mailer",
     description: "A satirical artwork parodying BoFA direct-mail welcoming a new cardholder to the “Trump Platinum Card.”",
